@@ -2,14 +2,28 @@ import requests
 import time
 import os
 import json
+import logging
+from logging import RotatingFileHandler
 
 import telegram
 
 DVMN_TOKEN = os.getenv('DVMN_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
+LOG_TOKEN = os.getenv('LOG_TOKEN')
 
 url = 'https://dvmn.org/api/long_polling/'
 
+
+class MyLogsHandler(logging.Handler):
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        send_message(LOG_TOKEN, log_entry)
+
+logger = logging.getLogger("Название логера")
+logger.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d', level=logging.DEBUG)
+handler = RotatingFileHandler("app.log", maxBytes=200, backupCount=3)
+logger.addHandler(MyLogsHandler())
 
 def send_message(tg_token, update_text):
     bot = telegram.Bot(tg_token)
@@ -18,6 +32,11 @@ def send_message(tg_token, update_text):
 
 
 def main(dvmn_token, url):
+    try:
+      0/0
+    except Exception as err:
+      logging.error(err, exc_info=True)
+
     last_time = None
     while True:
         try:
