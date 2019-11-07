@@ -11,8 +11,8 @@ DVMN_TOKEN = os.getenv('DVMN_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 LOG_TOKEN = os.getenv('LOG_TOKEN')
 
-#url = 'https://dvmn.org/api/long_polling/'
-url = 'https://dvmn.org/api/not_exist/'
+url = 'https://dvmn.org/api/long_polling/'
+
 
 def send_message(tg_token, update_text):
     bot = telegram.Bot(tg_token)
