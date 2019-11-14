@@ -31,7 +31,7 @@ def main(dvmn_token, url):
         except (requests.exceptions.ReadTimeout,
                 requests.exceptions.ConnectionError):
             logger.exception(msg='connectionerror')
-            time.sleep(5)
+            time.sleep(30)
             continue
         if response.ok:
             response_data = response.json()
@@ -51,6 +51,7 @@ def main(dvmn_token, url):
                      {approve_phrase} https://dvmn.org{lesson_url}''')
             elif response_data['status'] == "timeout":
                 last_time = response_data['timestamp_to_request']
+                logger.info('request timeout')
             else:
                 print('json decode error')
                 logger.exception(msg='json decode error')
@@ -69,7 +70,7 @@ if __name__ == '__main__':
             log_entry = self.format(record)
             send_message(LOG_TOKEN, log_entry)
 
-    logger = logging.getLogger("Название логера")
+    logger = logging.getLogger("bot logger")
     handler = RotatingFileHandler("app.log", maxBytes=200, backupCount=3)
     logger.addHandler(MyLogsHandler())
 
