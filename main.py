@@ -10,6 +10,7 @@ import telegram
 DVMN_TOKEN = os.getenv('DVMN_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 LOG_TOKEN = os.getenv('LOG_TOKEN')
+logger = logging.getLogger("bot logger")
 
 url = 'https://dvmn.org/api/long_polling/'
 
@@ -70,7 +71,6 @@ if __name__ == '__main__':
             log_entry = self.format(record)
             send_message(LOG_TOKEN, log_entry)
 
-    logger = logging.getLogger("bot logger")
     handler = RotatingFileHandler("app.log", maxBytes=200, backupCount=3)
     logger.addHandler(MyLogsHandler())
 
